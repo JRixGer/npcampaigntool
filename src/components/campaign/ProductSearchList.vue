@@ -1,3 +1,6 @@
+/*
+  This component is used to allow searching of product
+*/
 <template>
     <div @mouseleave="hideProdSelection">
         <b-container fluid>
@@ -26,15 +29,22 @@
 
 
 <script>
+
+
   import {showErrorMsg, showSuccessMsg, busySpin, stopSpin} from '../../helper';
   import axios from "axios";
   import _ from 'lodash';
   import { ModelSelect, MultiSelect } from 'vue-search-select';
   import ProductSearchColumn from './ProductSearchColumn.vue';
 
+/*
+  Above import codes are responsible to libraries and helper that are needed for this component
+*/
+
   export default {
     components: {ModelSelect, MultiSelect, ProductSearchColumn},
-    data() {
+
+    data() { // variable declaration
       let columns = [
           {width: '100%', label: 'Click to select...', name: 'ProdName' },
       ];
@@ -50,11 +60,12 @@
         hideResultBox: false
       }
     },
+
     computed: {
     },
     watch : {
     }, 
-    created() {
+    created() { // trigger when on-hide-prod-search executes
       this.$root.$on("on-hide-prod-search",(n)=>{
         this.hideProdSelection();
       });
@@ -62,7 +73,7 @@
     mounted() {
     },
     methods: {
-      getProducts(url = process.env.API_URL+"api/productsbyname") {
+      getProducts(url = process.env.API_URL+"api/productsbyname") {  // access API by products name
         this.showProdSelection();
         const that = this;
         this.tableData.draw++;
@@ -83,7 +94,7 @@
             });
       },
       selectData(d)
-      {
+      {  
         this.$root.$emit('product-selected', d)
       },
       hideProdSelection()
